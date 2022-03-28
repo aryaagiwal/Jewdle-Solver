@@ -1,12 +1,14 @@
 import java.util.*;
 
-//Created by Arya Agiwal and Oscar Goes 2022
+//Created by Arya Agiwal, Oscar Goes, Om Goswami 2022
 
 public class UserInterface {
 	
 	public static void main(String[] args) {
 		Manager game = new Manager();
-		System.out.println("Welcome to the wordle solver.\n");
+		//Statistics data = new Statistics();
+		//data.getData(game.seeWordList());
+		System.out.println("Welcome to the Jewdle solver.\n");
 		
 		//DEBUG
 		//System.out.println(game);
@@ -30,36 +32,36 @@ public class UserInterface {
 			}
 			System.out.println("Best guess: " + game.attemptGuess());
 			tries++;
-			System.out.println("What did wordle return? Enter 5 character string with G for green, Y for yellow, B for black.");
+			System.out.println("What did Jewdle return? Enter 6 character string with G for green, Y for yellow, B for black.");
 			String current = in.next().toUpperCase();
 			while (!isValid(current)) {
-				System.out.println("What did wordle return? Enter 5 character string with G for green, Y for yellow, B for black.");
+				System.out.println("What did Jewdle return? Enter 6 character string with G for green, Y for yellow, B for black.");
 				current = in.next().toUpperCase();
 			}
 			int gCount = 0;
-			for (int i = 0; i < 5; i++) {
+			for (int i = 0; i < 6; i++) {
 				if (current.charAt(i) == 'G') {
 					gCount++;
 				}
 			}
-			if (gCount == 4 && tries <= 4) {
+			if (gCount == 5 && tries <= 4) {
 				//System.out.println("Activating special case");
 				System.out.println("Best guess: " + game.specialUpdateManager(current));
 				tries++;
-				System.out.println("What did wordle return? Enter 5 character string with G for green, Y for yellow, B for black.");
+				System.out.println("What did Jewdle return? Enter 6 character string with G for green, Y for yellow, B for black.");
 				current = in.next().toUpperCase();
 				while (!isValid(current)) {
-					System.out.println("What did wordle return? Enter 5 character string with G for green, Y for yellow, B for black.");
+					System.out.println("What did Jewdle return? Enter 6 character string with G for green, Y for yellow, B for black.");
 					current = in.next().toUpperCase();
 				}
 				gCount = 0;
-				for (int i = 0; i < 5; i++) {
+				for (int i = 0; i < 6; i++) {
 					if (current.charAt(i) == 'G') {
 						gCount++;
 					}
 				}
 			}
-			if (gCount == 5) {
+			if (gCount == 6) {
 				System.out.println("\nWhat's there to be happy about?");
 				try {
 					Thread.sleep(2000);
@@ -84,7 +86,7 @@ public class UserInterface {
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
-				System.out.println("Made by Arya Agiwal and Oscar Goes :)");
+				System.out.println("Made by Arya Agiwal, Oscar Goes, and Om Goswami :)");
 				System.exit(0);
 			}
 			System.out.println(game);
@@ -107,10 +109,10 @@ public class UserInterface {
 	}
 	
 	private static boolean isValid(String current) {
-		if (current.length() != 5) {
+		if (current.length() != 6) {
 			return false;
 		}
-		for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < 6; i++) {
 			if (current.charAt(i) != 'G' && current.charAt(i) != 'B' && current.charAt(i) != 'Y') {
 				return false;
 			}

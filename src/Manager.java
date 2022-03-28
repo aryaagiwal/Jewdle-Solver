@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-//Created by Arya Agiwal and Oscar Goes 2022
+//Created by Arya Agiwal, Oscar Goes, and Om Goswami 2022
 
 public class Manager {
 	//TODO: account for when wordle answer has repeats
@@ -18,33 +18,33 @@ public class Manager {
 	private static final String WORD_LIST = "possible.txt";
 	private static final Set<String> dictionary = getDictionary();
 	private static final int[][] POS_FREQ = {
-			{737,  2263,  1236,  1074,  680},
-			{909,  81,  335,  243,  59},
-			{922,  176,  392,  411,  127},
-			{685,  84,  390,  471,  823},
-			{303,  1628,  882,  2327,  1522},
-			{598,  24,  178,  233,  82},
-			{638,  76,  364,  423,  143},
-			{489,  546,  120,  235,  370},
-			{165,  1383,  1051,  880,  280},
-			{202,  11,  46,  29,  3},
-			{376,  95,  272,  503,  259},
-			{577,  699,  848,  771,  476},
-			{693,  188,  511,  402,  182},
-			{325,  345,  964,  788,  530},
-			{262,  2096,  993,  698,  389},
-			{859,  231,  364,  418,  147},
-			{78,  15,  13,  2,  4},
-			{628,  940,  1198,  719,  673},
-			{1565,  93,  533,  516,  3958},
-			{815,  239,  616,  898,  727},
-			{189,  1187,  667,  401,  67},
-			{242,  52,  240,  156,  4},
-			{413,  163,  271,  128,  64},
-			{16,  57,  133,  12,  70},
-			{181,  271,  213,  108,  1301},
-			{105,  29,  142,  126,  32}
-			};
+			{1187, 3896, 1821, 1742, 1833, 738},
+			{1566, 134, 673, 585, 148, 51},
+			{1756, 343, 849, 633, 483, 291},
+			{1138, 116, 770, 860, 434, 2482},
+			{673, 3069, 1385, 1932, 6622, 2627},
+			{960, 55, 360, 373, 195, 57},
+			{997, 116, 769, 853, 376, 665},
+			{799, 946, 251, 540, 402, 464},
+			{375, 2301, 1491, 2515, 1717, 270},
+			{318, 15, 67, 75, 7, 2},
+			{496, 114, 282, 755, 406, 183},
+			{893, 1005, 1423, 1346, 1550, 805},
+			{1193, 323, 968, 805, 373, 332},
+			{467, 910, 1685, 1225, 1684, 1196},
+			{488, 3269, 1510, 1381, 1216, 319},
+			{1541, 471, 686, 740, 298, 173},
+			{126, 38, 27, 35, 3, 0},
+			{1239, 1530, 2152, 1178, 1301, 1997},
+			{2664, 214, 1234, 1060, 726, 6360},
+			{1331, 466, 1225, 1606, 1173, 1220},
+			{563, 2013, 1047, 803, 721, 66},
+			{419, 91, 310, 374, 107, 3},
+			{627, 207, 440, 221, 105, 116},
+			{19, 114, 126, 68, 21, 94},
+			{177, 368, 360, 177, 175, 1624},
+			{145, 33, 246, 275, 81, 22},
+	};
 	
 	//instance variables
 	TreeMap<String, Integer> currentWords;
@@ -64,13 +64,9 @@ public class Manager {
 		Set<String> dictionary = new TreeSet<>();
 		try {
 			Scanner input = new Scanner(new File(WORD_LIST));
-			Scanner inputTwo = new Scanner(new File("wordle-answers.txt"));
 			while (input.hasNext())
 				dictionary.add(input.next().toLowerCase());
 			input.close();
-			while (inputTwo.hasNext())
-				dictionary.add(inputTwo.next().toLowerCase());
-			inputTwo.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 			System.out.println("Unable to find this file: " + WORD_LIST);
@@ -89,12 +85,12 @@ public class Manager {
 	private static int calcWeight(String word) {
 		int weight = 0;
 		Set<Character> chars = new HashSet<>();
-		for(int i = 0; i < 5; i++) {
+		for(int i = 0; i < 6; i++) {
 			weight += POS_FREQ[word.charAt(i) - 'a'][i];
 			chars.add(word.charAt(i));
 		}
 		weight *= chars.size();
-		weight /= 5;
+		weight /= 6;
 		return weight;
 	}
 	
@@ -117,7 +113,8 @@ public class Manager {
 					temp.charAt(1) == c ||
 					temp.charAt(2) == c ||
 					temp.charAt(3) == c ||
-					temp.charAt(4) == c )
+					temp.charAt(4) == c ||
+					temp.charAt(5) == c)
 					) {
 				updated.put(temp, currentWords.get(temp));
 			}
@@ -134,7 +131,8 @@ public class Manager {
 					temp.charAt(1) == c ||
 					temp.charAt(2) == c ||
 					temp.charAt(3) == c ||
-					temp.charAt(4) == c )
+					temp.charAt(4) == c ||
+					temp.charAt(5) == c)
 					)) {
 				updated.put(temp, currentWords.get(temp));
 			}
@@ -150,7 +148,7 @@ public class Manager {
 		TreeMap<String, Integer> updated = new TreeMap<>();
 		for (String word : currentWords.keySet()) {
 			int curCount = 0;
-			for (int c = 0; c < 5; c++) {
+			for (int c = 0; c < 6; c++) {
 				if (word.charAt(c) == ch) {
 					curCount++;
 				}
@@ -164,12 +162,12 @@ public class Manager {
 	
 	//methods
 	public String attemptGuess() {
-		if (guessesDone == 0) {
-			currentWords.remove("soare");
-			lastGuessed = "soare";
-			guessesDone++;
-			return "soare";
-		} else {
+//		if (guessesDone == 0) {
+//			currentWords.remove("soare");
+//			lastGuessed = "soare";
+//			guessesDone++;
+//			return "soare";
+//		} else {
 			int max = 0;
 			String bestGuess = "";
 			for (String word : currentWords.keySet()) {
@@ -183,14 +181,14 @@ public class Manager {
 			currentWords.remove(bestGuess);
 			guessesDone++;
 			return bestGuess;
-		}
+		//}
 	}
 	
 	public void updateManager(String result) {
 		
 		HashMap<Character, Integer> duplicates = new HashMap<>();
 		System.out.println("Updating and last guessed is: " + lastGuessed + " while result is: " + result);
-		for (int c = 0; c < 5; c++) {
+		for (int c = 0; c < 6; c++) {
 			if (result.charAt(c) == 'G') {
 				updateGreen(c);
 				if (duplicates.get(lastGuessed.charAt(c)) == null) {
@@ -201,7 +199,7 @@ public class Manager {
 			}
 		}
 		
-		for (int c = 0; c < 5; c++) {
+		for (int c = 0; c < 6; c++) {
 			if (result.charAt(c) == 'Y') {
 				updateYellow(c);
 				if (duplicates.get(lastGuessed.charAt(c)) == null) {
@@ -212,7 +210,7 @@ public class Manager {
 			}
 		}
 		
-		for (int c = 0; c < 5; c++) {
+		for (int c = 0; c < 6; c++) {
 			if (result.charAt(c) == 'B' && duplicates.get(lastGuessed.charAt(c)) == null) {
 				//DEBUG: System.out.println("removing character " + lastGuessed.charAt(c));
 				updateBlack(c);
@@ -244,7 +242,7 @@ public class Manager {
 	public String specialUpdateManager (String result) {
 		updateManager(result);
 		int varChar = 0;
-		for (int c = 0; c < 5; c++) {
+		for (int c = 0; c < 6; c++) {
 			if (result.charAt(c) == 'B') {
 				varChar = c;
 			}
@@ -262,7 +260,7 @@ public class Manager {
 		for (String word : emergencySet.keySet()) {
 			int weight = 0;
 			Set<Character> localTemp = new HashSet<>();
-			for (int i = 0; i < 5; i++) {
+			for (int i = 0; i < 6; i++) {
 				if (temp.contains(word.charAt(i)) && !localTemp.contains(word.charAt(i))) {
 					weight++;
 					localTemp.add(word.charAt(i));
@@ -288,5 +286,9 @@ public class Manager {
 		guessesDone++;
 		System.out.println(bestGuess);
 		return bestGuess;
+	}
+
+	public static Set<String> seeWordList() {
+		return dictionary;
 	}
 }

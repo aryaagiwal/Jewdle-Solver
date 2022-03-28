@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/WordleSolver.java.iml" filepath="$PROJECT_DIR$/WordleSolver.java.iml" />
+      <module fileurl="file://$PROJECT_DIR$/JewdleSolver.java.iml" filepath="$PROJECT_DIR$/JewdleSolver.java.iml" />
     </modules>
   </component>
 </project>
